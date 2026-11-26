@@ -1,0 +1,27 @@
+@startuml
+start
+:Receber code.evaluated.v1;
+:Higienizar PII e validar entrada;
+if (Entrada aceita?) then (sim)
+ :Embeddings e recuperacao autorizada;
+ if (Cache contextual validado > 95%?) then (hit)
+  :Reutilizar parecer validado;
+ else (miss)
+  if (Complexo ou suspeita > 88%?) then (sim)
+   :LLM cloud via gateway;
+  else (nao)
+   :SLM local;
+  endif
+  if (JSON Schema e regras validos?) then (sim)
+   :Persistir parecer e cache;
+  else (nao)
+   :Fallback seguro;
+  endif
+ endif
+else (nao)
+ :Fallback seguro;
+endif
+:Exibir parecer auxiliar; professor revisa suspeita;
+:Nota oficial inalterada;
+stop
+@enduml

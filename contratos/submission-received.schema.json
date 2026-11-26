@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "submissao.recebida.v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eventId",
+    "eventType",
+    "schemaVersion",
+    "occurredAt",
+    "submissionId",
+    "assignmentId",
+    "sourceLanguage",
+    "payloadReference"
+  ],
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "eventType": {
+      "const": "submissao.recebida.v1"
+    },
+    "schemaVersion": {
+      "const": 1
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "submissionId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "assignmentId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "sourceLanguage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payloadReference": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

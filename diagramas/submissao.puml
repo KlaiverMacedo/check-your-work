@@ -1,0 +1,30 @@
+@startuml
+actor Aluno
+participant Gateway
+participant API
+database "BD Submissoes + Outbox" as DB
+queue RabbitMQ as Q
+participant Privacidade as P
+participant "Worker Node.js" as W
+participant "AI Engine" as AI
+participant "ACL Academica" as ACL
+participant Mainframe as LMS
+Aluno -> Gateway : POST /api/v1/submissions
+Gateway -> API : JWT validado + requisicao
+API -> DB : Transacao: submissao + outbox
+API --> Gateway : HTTP 202
+Gateway --> Aluno : HTTP 202
+DB -> Q : Relay publica evento (confirm)
+Q -> P : submissao.recebida.v1
+P -> Q : submissao.anonimizada.v1
+Q -> W : evento pseudonimizado
+W -> W : Testes em sandbox e persistencia oficial
+W -> Q : avaliacao.concluida.v1 / code.evaluated.v1
+par Resultado oficial
+ Q -> ACL : avaliacao.concluida.v1
+ ACL -> LMS : envio controlado (se disponivel)
+else Feedback auxiliar
+ Q -> AI : code.evaluated.v1
+ AI -> AI : Guardrails / cache / tiering
+end
+@enduml

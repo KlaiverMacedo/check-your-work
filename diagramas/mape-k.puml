@@ -1,0 +1,16 @@
+@startuml
+skinparam componentStyle rectangle
+component "Monitor\nFila, CPU, latencia, erros" as M
+component "Analyze\nTendencias e calendario" as A
+component "Plan\nLimites e politicas" as P
+component "Execute\nEscalar ou reiniciar" as E
+database "Knowledge\nHistorico / politicas" as K
+M --> A
+A --> P
+P --> E
+E --> M : Telemetria
+M --> K : Registra
+K --> A : Historico
+K --> P : Limites
+E --> K : Auditoria
+@enduml
