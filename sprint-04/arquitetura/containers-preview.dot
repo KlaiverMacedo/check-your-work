@@ -1,0 +1,69 @@
+digraph C4 {
+graph [rankdir=TB, bgcolor="white", fontname="DejaVu Sans", fontsize=20, labelloc=t, label="Check Your Work | C4 Nível 2 — visão consolidada", nodesep=0.45, ranksep=0.65, splines=polyline, compound=true];
+node [shape=box, style="rounded,filled", fontname="DejaVu Sans", fontsize=11, margin="0.16,0.10", color="#184d72", fillcolor="#e5f0f8", fontcolor="#18384d"];
+edge [fontname="DejaVu Sans", fontsize=8, color="#607689", arrowsize=0.65];
+aluno [label="Aluno\nPessoa", fillcolor="#edf0f2", color="#657586"];
+prof [label="Professor\nPessoa", fillcolor="#edf0f2", color="#657586"];
+sso [label="SSO Institucional\nSistema externo", fillcolor="#edf0f2", color="#657586"];
+turnitin [label="TurnItIn\nSistema externo", fillcolor="#edf0f2", color="#657586"];
+lms [label="LMS Mainframe\nSistema externo", fillcolor="#edf0f2", color="#657586"];
+cloud [label="Provedor LLM cloud\nSistema externo", fillcolor="#edf0f2", color="#657586"];
+subgraph cluster_cyw { label="CHECK YOUR WORK"; color="#8fa9bd"; style="rounded";
+subgraph cluster_0 {label="Submissões"; color="#b8c9d5"; style="rounded,dashed";
+web [label="Aplicacao Web\nReact"];
+gateway [label="API Gateway\nGateway (produto a definir)"];
+api [label="API de Submissoes\nREST/JSON; Spring Boot proposto"];
+subdb [label="BD Submissoes e Outbox\nPostgreSQL"];
+}
+subgraph cluster_1 {label="Privacidade"; color="#b8c9d5"; style="rounded,dashed";
+privacy [label="Servico de Privacidade\nWorker"];
+vault [label="Cofre de Pseudonimizacao\nArmazenamento cifrado"];
+}
+subgraph cluster_2 {label="Avaliação determinística"; color="#b8c9d5"; style="rounded,dashed";
+worker [label="Workers de Avaliacao\nNode.js/TypeScript"];
+sandbox [label="Sandbox de execucao\nRuntime isolado (a validar)"];
+avaldb [label="BD Avaliacoes e Outbox\nPostgreSQL"];
+}
+subgraph cluster_3 {label="Avaliação probabilística (auxiliar)"; color="#b8c9d5"; style="rounded,dashed";
+ai [label="AI Evaluation Engine\nConsumidor assincrono"];
+cache [label="Cache semantico\nRedis Stack"];
+vector [label="Banco vetorial\nQdrant ou pgvector (a definir)"];
+feedback [label="BD Pareceres\nPostgreSQL"];
+models [label="Model Gateway\nLiteLLM"];
+slm [label="SLM local\nModelo local (a definir)"];
+}
+subgraph cluster_4 {label="Integração acadêmica"; color="#b8c9d5"; style="rounded,dashed";
+integration [label="ACL Academica\nWorker / XML se confirmado"];
+delivery [label="BD Integracao\nPostgreSQL"];
+}
+subgraph cluster_5 {label="Infraestrutura compartilhada"; color="#b8c9d5"; style="rounded,dashed";
+broker [label="RabbitMQ\nAMQP"];
+autonomy [label="Controlador MAPE-K\nControlador (proposta)"];
+}
+}
+aluno -> web [label="HTTPS"];
+prof -> web [label="HTTPS"];
+web -> gateway [label="HTTPS/JSON"];
+gateway -> sso [label="OIDC/JWT"];
+gateway -> api [label="HTTPS/JSON"];
+api -> subdb [label=""];
+api -> broker [label="AMQP"];
+broker -> privacy [label="AMQP"];
+privacy -> vault [label=""];
+privacy -> broker [label="AMQP"];
+broker -> worker [label="AMQP"];
+worker -> sandbox [label=""];
+worker -> turnitin [label="HTTPS a confirmar"];
+worker -> avaldb [label=""];
+worker -> broker [label="AMQP"];
+broker -> integration [label="AMQP"];
+integration -> delivery [label=""];
+integration -> lms [label="SOAP/XML a confirmar"];
+broker -> ai [label="AMQP"];
+ai -> cache [label=""];
+ai -> vector [label=""];
+ai -> feedback [label=""];
+ai -> models [label="HTTPS/JSON"];
+models -> slm [label=""];
+models -> cloud [label="HTTPS"];
+}
