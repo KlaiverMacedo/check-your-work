@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+rectangle "Submissoes\nSupporting / OHS" as S
+rectangle "Privacidade\nSupporting" as P
+rectangle "Avaliacao\nCore / OHS" as A
+rectangle "Integracao Academica\nSupporting / ACL" as I
+rectangle "SSO\nGeneric" as X
+rectangle "TurnItIn\nExterno" as T
+rectangle "Mainframe\nExterno" as M
+S --> P : U -> D / Published Language
+P --> A : U -> D / Customer-Supplier
+A --> I : U -> D / Published Language
+A --> S : U -> D / Published Language
+X --> S : Contrato OIDC / Conformist
+T --> A : Contrato externo / ACL
+M --> I : Contrato externo / ACL
+@enduml
