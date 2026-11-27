@@ -1,0 +1,25 @@
+@startuml
+skinparam packageStyle rectangle
+package "Dominio" {
+ interface IAvaliacaoRepository {
+  +salvar(resultado: ResultadoAvaliacao): void
+  +buscarPorId(id: String): Optional
+ }
+ interface IVerificadorPlagioService {
+  +verificar(codigoPseudonimizado: String): double
+ }
+ class AvaliacaoService
+ class ResultadoAvaliacao
+ AvaliacaoService --> IAvaliacaoRepository
+ AvaliacaoService --> IVerificadorPlagioService
+ AvaliacaoService --> ResultadoAvaliacao
+}
+package "Infraestrutura" {
+ class PostgresAvaliacaoRepository
+ class RepositorioEmMemoria
+ class TurnItInAdapter
+}
+PostgresAvaliacaoRepository ..|> IAvaliacaoRepository
+RepositorioEmMemoria ..|> IAvaliacaoRepository
+TurnItInAdapter ..|> IVerificadorPlagioService
+@enduml
