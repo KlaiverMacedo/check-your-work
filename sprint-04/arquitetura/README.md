@@ -1,0 +1,4 @@
+# Modelo C4 consolidado
+O arquivo [workspace.dsl](workspace.dsl) contém as três views: Contexto, Containers e ComponentesAvaliacao. O nível 3 detalha os workers Node.js, não a infraestrutura Java de demonstração. Relações externas e tecnologias pendentes estão marcadas. Use Structurizr Lite ou CLI para validar/renderizar. A imagem SVG de contêineres é uma visualização auxiliar construída a partir do desenho, não uma exportação do Structurizr. Arquivo DSL é a fonte de verdade após revisão.
+
+A API Spring Boot é proposta do diagrama AI-Native de 19/11, em conflito com ASP.NET Core do rascunho GoF; não é decisão final. Bancos PostgreSQL são segregados logicamente/fisicamente por contexto conforme proposta DDD, sem acesso cruzado. Resolução de token é mediada pelo serviço de privacidade, com autorização. O broker é infraestrutura compartilhada, não domínio.
